@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'json'
+require 'YAML'
 
 module ChefCommand
   extend self
@@ -41,55 +42,49 @@ end
 
 class Portal < Sinatra::Base
 
-  def node
-    { 'chef_classroom' => { 'class_name' => 'CLASSNAME' },
-      'ec2' => { 'public_ipv4' => '54.13.13.13' }
-    }
+  def data_file
+    'nodes.yml'
+  end
+
+  def data
+    YAML.load(File.read(data_file))
+  end
+
+  def class_name
+    data[:class_name]
+  end
+
+  def console_address
+    data[:console_address]
   end
 
   def workstations
-    [
-      { 'ec2' => { 'public_ipv4' => '54.13.13.1' } },
-      { 'ec2' => { 'public_ipv4' => '54.13.13.2' } }
-    ]
+    data[:workstations]
   end
 
   def node1s
-    [
-      { 'ec2' => { 'public_ipv4' => '54.1.1.11' }, 'platform_family' => 'centos' },
-      { 'ec2' => { 'public_ipv4' => '54.1.1.12' }, 'platform_family' => 'centos' }
-    ]
+    data[:nodes].find { |node| node[:label] == 'node1' }[:nodes]
   end
 
   def node2s
-    [
-      { 'ec2' => { 'public_ipv4' => '54.1.1.21' }, 'platform_family' => 'windows' },
-      { 'ec2' => { 'public_ipv4' => '54.1.1.22' }, 'platform_family' => 'windows' }
-    ]
+    data[:nodes].find { |node| node[:label] == 'node2' }[:nodes]
   end
 
   def node3s
-    [
-      { 'ec2' => { 'public_ipv4' => '54.1.1.31' }, 'platform_family' => 'ubuntu' },
-      { 'ec2' => { 'public_ipv4' => '54.1.1.32' }, 'platform_family' => 'ubuntu' }
-    ]
+    data[:nodes].find { |node| node[:label] == 'node3' }[:nodes]
   end
 
   def chef_servers
-    [ { 'ec2' => { 'public_ipv4' => '99.99.99.99' } } ]
+    data[:chefserver]
   end
 
   def key
-    "PRIVATE KEY
-    PRIVATE KEY
-    PRIVATE KEY
-    PRIVATE KEY
-    PRIVATE KEY
-    PRIVATE KEY"
+    File.read(data[:key])
   end
 
   get '/' do
-    erb :index, :locals => { :node => node,
+    erb :index, :locals => { :class_name => class_name,
+      :console_address => console_address,
       :workstations => workstations,
       :node1s => node1s,
       :node2s => node2s,
@@ -140,5 +135,3 @@ class Portal < Sinatra::Base
     { success: true }.to_json
   end
 end
-
-

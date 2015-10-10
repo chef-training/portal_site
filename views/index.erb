@@ -32,7 +32,7 @@
     </script>
 
     <img src="https://www.chef.io/images/logo.svg" align="center">
-    <h1>Welcome to <%= node['chef_classroom']['class_name'] -%></h1>
+    <h1>Welcome to <%= class_name -%></h1>
 
     <hr>
 
@@ -53,7 +53,7 @@
     <hr>
 
     <h2>List of student machines</h2>
-    <h4>For direct console access to student nodes/workstations, go to the <a href="http://<%= node['ec2']['public_ipv4'] -%>:8080/guacamole">guacamole console</a>.</h4>
+    <h4>For direct console access to student nodes/workstations, go to the <a href="<%= console_address -%>">console</a>.</h4>
 
     <% unless workstations == Array.new -%>
         <table border="1" style="width:50%">
@@ -65,7 +65,7 @@
           <% workstations.each do |workstation| -%>
           <tr>
             <td><%= "Workstation-#{@w_count += 1}" %></td>
-            <td><%= workstation['ec2']['public_ipv4'] %></td>
+            <td><%= workstation[:ipaddress] %></td>
           <%end -%>
           </tr>
         </table>
@@ -84,8 +84,8 @@
           <% node1s.each do |node1| -%>
           <tr>
             <td><%= "Node1-#{@n1_count += 1}" %></td>
-            <td><%= node1['ec2']['public_ipv4'] %></td>
-            <td><%= node1['platform_family'] %></td>
+            <td><%= node1[:ipaddress] %></td>
+            <td><%= node1[:platform_family] %></td>
           <%end -%>
           </tr>
         </table>
@@ -104,8 +104,8 @@
           <% node2s.each do |node2| -%>
           <tr>
             <td><%= "Node2-#{@n2_count += 1}" %></td>
-            <td><%= node2['ec2']['public_ipv4'] %></td>
-            <td><%= node2['platform_family'] %></td>
+            <td><%= node2[:ipaddress] %></td>
+            <td><%= node2[:platform_family] %></td>
           <%end -%>
           </tr>
         </table>
@@ -124,8 +124,8 @@
           <% node3s.each do |node3| -%>
           <tr>
             <td><%= "Node3-#{@n3_count += 1}" %></td>
-            <td><%= node3['ec2']['public_ipv4'] %></td>
-            <td><%= node3['platform_family'] %></td>
+            <td><%= node3[:ipaddress] %></td>
+            <td><%= node3[:platform_family] %></td>
           <%end -%>
           </tr>
         </table>
@@ -142,8 +142,8 @@
           <% chef_servers.each do |server| -%>
           <tr>
             <td><%= "Chef Server" %></td>
-            <td><a href="https://<%= server['ec2']['public_ipv4'] -%>">
-              <%= server['ec2']['public_ipv4'] %></a>
+            <td><a href="https://<%= server[:ipaddress] -%>">
+              <%= server[:ipaddress] %></a>
             </td>
           <%end -%>
           </tr>
@@ -155,7 +155,7 @@
     <h2>Credentials for students</h2>
     <p>Students will need the private ssh key below to bootstrap linux nodes</p>
     <blockquote><pre>
-      <%= key -%>
+<%= key -%>
     </pre></blockquote>
 
   </body>
