@@ -1,0 +1,24 @@
+:class_name: CLASS_NAME
+:console_address: http://localhost:8080/guacamole
+:key: "local_key"
+:workstations:
+- :ipaddress: PUBLIC_IPV4
+  :platform_family: centos
+:nodes:
+- :label: node1
+  :nodes:
+  - :ipaddress: PUBLIC_IPV4-1
+    :platform_family: centos
+  - :ipaddress: PUBLIC_IPV4-2
+    :platform_family: centos
+- :label: node2
+  :nodes:
+  - :ipaddress: PUBLIC_IPV4
+    :platform_family: centos
+- :label: node3
+  :nodes:
+  - :ipaddress: PUBLIC_IPV4
+    :platform_family: windows
+:chefserver:
+- :ipaddress: PUBLIC_IPV4
+  :platform_family: centos
