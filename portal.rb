@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'json'
-require 'YAML'
+require 'yaml'
 
 module ChefCommand
   extend self
