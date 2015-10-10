@@ -43,7 +43,12 @@ end
 class Portal < Sinatra::Base
 
   def data_file
-    'nodes.yml'
+    # Lets talk a little about why I am hard-coding this value. Currently in
+    # the cookbook that I am working I am attempting to run this project with
+    # rackup. Well it turns out that the current working directory is not
+    # right so instead of doing the right thing right now I'm going to hard-code
+    # that value within the server.
+    '/root/portal_site/nodes.yml'
   end
 
   def data
