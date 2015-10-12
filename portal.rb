@@ -84,7 +84,7 @@ class Portal < Sinatra::Base
   end
 
   def key
-    File.read(data[:key])
+    File.read(data[:key]) rescue "NO KEY FOUND"
   end
 
   get '/' do
