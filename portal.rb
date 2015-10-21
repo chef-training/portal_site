@@ -48,7 +48,7 @@ class Portal < Sinatra::Base
     # rackup. Well it turns out that the current working directory is not
     # right so instead of doing the right thing right now I'm going to hard-code
     # that value within the server.
-    'nodes.yml'
+    '/root/portal_site/nodes.yml'
   end
 
   def data
