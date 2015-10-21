@@ -11,31 +11,31 @@ module ChefCommand
   end
 
   def deploy_workstations
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::deploy_workstations]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_workstations]'"
   end
 
   def deploy_server
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::deploy_server]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_server]'"
   end
 
   def deploy_first_nodes
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::deploy_first_nodes]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_first_nodes]'"
   end
 
   def deploy_multi_nodes
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::deploy_multi_nodes]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_multi_nodes]'"
   end
 
   def refresh_portal
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::_refresh_portal]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::_refresh_portal]'"
   end
 
   def destroy_workstations
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::destroy_workstations]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::destroy_workstations]'"
   end
 
   def destroy_all
-    "#{chef_classroom} && chef-client -z -r 'recipe[chef_classroom::destroy_all]'"
+    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::destroy_all]'"
   end
 
 end
@@ -48,7 +48,7 @@ class Portal < Sinatra::Base
     # rackup. Well it turns out that the current working directory is not
     # right so instead of doing the right thing right now I'm going to hard-code
     # that value within the server.
-    '/root/portal_site/nodes.yml'
+    'nodes.yml'
   end
 
   def data
