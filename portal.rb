@@ -10,32 +10,36 @@ module ChefCommand
     "cd /root/chef_classroom"
   end
 
+  def chef_client
+    "#{chef_classroom} && chef-client -z --logfile chef-client.log -r"
+  end
+
   def deploy_workstations
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_workstations]'"
+    "#{chef_client} 'role[class],recipe[chef_classroom::deploy_workstations]'"
   end
 
   def deploy_server
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_server]'"
+    "#{chef_client} 'role[class],recipe[chef_classroom::deploy_server]'"
   end
 
   def deploy_first_nodes
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_first_nodes]'"
+    "#{chef_client} 'role[class],recipe[chef_classroom::deploy_first_nodes]'"
   end
 
   def deploy_multi_nodes
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::deploy_multi_nodes]'"
+    "#{chef_client} 'role[class],recipe[chef_classroom::deploy_multi_nodes]'"
   end
 
   def refresh_portal
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::_refresh_portal]'"
+    "#{chef_client} 'role[class],recipe[chef_classroom::_refresh_portal]'"
   end
 
   def destroy_workstations
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::destroy_workstations]'"
+    "#{chef_client} 'role[class],recipe[chef_classroom::destroy_workstations]'"
   end
 
-  def destroy_all
-    "#{chef_classroom} && chef-client -z -r 'role[class],recipe[chef_classroom::destroy_all]'"
+  def destroy_lab
+    "#{chef_client} 'role[class],recipe[chef_classroom::destroy_lab]'"
   end
 
 end
