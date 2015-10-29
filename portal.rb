@@ -67,20 +67,8 @@ class Portal < Sinatra::Base
     data[:console_address]
   end
 
-  def workstations
-    data[:workstations]
-  end
-
-  def node1s
-    data[:nodes].find { |node| node[:label] == 'node1' }[:nodes]
-  end
-
-  def node2s
-    data[:nodes].find { |node| node[:label] == 'node2' }[:nodes]
-  end
-
-  def node3s
-    data[:nodes].find { |node| node[:label] == 'node3' }[:nodes]
+  def students
+    data[:students]
   end
 
   def chef_servers
@@ -94,10 +82,7 @@ class Portal < Sinatra::Base
   get '/' do
     erb :index, :locals => { :class_name => class_name,
       :console_address => console_address,
-      :workstations => workstations,
-      :node1s => node1s,
-      :node2s => node2s,
-      :node3s => node3s,
+      :students => students,
       :chef_servers => chef_servers,
       :key => key }
   end
@@ -138,9 +123,9 @@ class Portal < Sinatra::Base
     { success: true }.to_json
   end
 
-  get '/destroy_all' do
+  get '/destroy_lab' do
     logger.info "Destroying All"
-    Process.spawn(ChefCommand.destroy_all)
+    Process.spawn(ChefCommand.destroy_lab)
     { success: true }.to_json
   end
 end
