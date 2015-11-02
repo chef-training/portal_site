@@ -1,0 +1,32 @@
+<h4>For direct console access to student nodes/workstations, go to the <a href="<%= console_address -%>">console</a>.</h4>
+
+<% if !students.nil? -%>
+  <% students.each do |student| -%>
+    <% if !student[:workstations].nil? -%>
+      <h4><%= student[:name] %></h4>
+      <table border="1" style="width:50%">
+      <tr>
+        <th>Node</th>
+        <th>Public IP Address</th>
+        <th>Platform</th>
+      </tr>
+      <% student[:workstations].each do |workstation| -%>
+        <tr>
+          <td><%= workstation[:name] %></td>
+          <td><%= workstation[:ipaddress] %></td>
+          <td><%= workstation[:platform] %></td>
+        </tr>
+      <% end -%>
+    <% if !student[:nodes].nil? -%>
+      <% student[:nodes].each do |node| -%>
+        <tr>
+          <td><%= node[:name] %></td>
+          <td><%= node[:ipaddress] %></td>
+          <td><%= node[:platform] %></td>
+        </tr>
+      <% end -%>
+      <% end -%>
+      </table>
+    <% end -%>
+  <% end -%>
+<% end -%>

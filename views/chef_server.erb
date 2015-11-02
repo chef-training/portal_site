@@ -1,0 +1,16 @@
+<% if !chef_servers.nil? -%>
+<table border="1" style="width:50%">
+  <tr>
+    <th>Chef Server Name</th>
+    <th>Public IP Address</th>
+  </tr>
+  <% chef_servers.each do |server| -%>
+  <tr>
+    <td><%= server[:name] %></td>
+    <td><a href="https://<%= server[:ipaddress] -%>">
+      <%= server[:ipaddress] %></a>
+    </td>
+  <% end -%>
+  </tr>
+</table>
+<% end -%>

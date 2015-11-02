@@ -6,18 +6,9 @@
     <title></title>
     <script src="https://style.chef.io/dist/0.1.8/javascripts/vendor/modernizr.js"></script>
     <link rel="stylesheet" href="https://style.chef.io/dist/0.3.0/stylesheets/chef.css">
-    <script type="text/javascript">
-      function performOperation(operationName) {
-        console.log("Requesting server execute command @ /" + operationName);
-        $.ajax({ url: operationName, data: {}, dataType: "json" });
-      }
-    </script>
+    <script src="/common.js"></script>
+    <link rel="stylesheet" type="text/css" href="/common.css">
   </head>
-  <style>
-    body {
-      background-color: #ffffff;
-    }
-  </style>
   <body>
     <a class="logo"></a>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -31,85 +22,22 @@
       });
     </script>
 
-    <h1>Welcome to <%= class_name -%></h1>
+    <h1>Welcome to <%= class_name %></h1>
 
     <hr>
-
-    <h2>Available Instructor Actions</h2>
-    <p>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_workstations');">Deploy student workstations</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_chef_server');">Deploy Chef Server</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_first_nodes');">Deploy first standalone nodes</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_multi_nodes');">Deploy remaining nodes</button>
-    </p>
-    <p>
-      <button type="button" class="button secondary tiny" onclick="performOperation('refresh_portal');">Refresh this portal instance</button>
-    </p>
-      <button type="button" class="button secondary tiny" onclick="performOperation('destroy_workstations');">Destroy student workstations</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('destroy_lab');">Destroy the entire lab environment</button>
-    </p>
-
+    <%= erb :instructor_actions %>
     <hr>
 
     <h2>Student machines</h2>
-    <h4>For direct console access to student nodes/workstations, go to the <a href="<%= console_address -%>">console</a>.</h4>
+    <%= erb :student_machines %>
+    <hr>
 
-    <% if !students.nil? -%>
-      <% students.each do |student| -%>
-        <% if !student[:workstations].nil? -%>
-          <h4><%= student[:name] %></h4>
-          <table border="1" style="width:50%">
-          <tr>
-            <th>Node</th>
-            <th>Public IP Address</th>
-            <th>Platform</th>
-          </tr>
-          <% student[:workstations].each do |workstation| -%>
-            <tr>
-              <td><%= workstation[:name] %></td>
-              <td><%= workstation[:ipaddress] %></td>
-              <td><%= workstation[:platform] %></td>
-            </tr>
-          <% end -%>
-        <% if !student[:nodes].nil? -%>
-          <% student[:nodes].each do |node| -%>
-            <tr>
-              <td><%= node[:name] %></td>
-              <td><%= node[:ipaddress] %></td>
-              <td><%= node[:platform] %></td>
-            </tr>
-          <% end -%>
-          <% end -%>
-          </table>
-        <% end -%>
-      <% end -%>
-    <% end -%>
-
-    <% if !chef_servers.nil? -%>
     <h2>Chef Server</h2>
-        <table border="1" style="width:50%">
-          <tr>
-            <th>Chef Server Name</th>
-            <th>Public IP Address</th>
-          </tr>
-          <% chef_servers.each do |server| -%>
-          <tr>
-            <td><%= server[:name] %></td>
-            <td><a href="https://<%= server[:ipaddress] -%>">
-              <%= server[:ipaddress] %></a>
-            </td>
-          <% end -%>
-          </tr>
-        </table>
-    <% end -%>
-
+    <%= erb :chef_server %>
     <hr>
 
     <h2>Credentials for students</h2>
-    <p>Students will need the private ssh key below to bootstrap linux nodes</p>
-    <blockquote><pre>
-<%= key -%>
-    </pre></blockquote>
+    <%= erb :credentials %>
 
   </body>
 </html>
