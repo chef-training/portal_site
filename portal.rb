@@ -18,8 +18,8 @@ module ChefCommand
     "#{chef_client} 'role[class],recipe[chef_classroom::deploy_workstations]'"
   end
 
-  def deploy_server
-    "#{chef_client} 'role[class],recipe[chef_classroom::deploy_server]'"
+  def deploy_chef_server
+    "#{chef_client} 'role[class],recipe[chef_classroom::deploy_chef_server]'"
   end
 
   def deploy_first_nodes
@@ -93,9 +93,9 @@ class Portal < Sinatra::Base
     { success: true }.to_json
   end
 
-  get '/deploy_server' do
-    logger.info "Deploying Workstations: #{ChefCommand.deploy_server}"
-    Process.spawn(ChefCommand.deploy_server)
+  get '/deploy_chef_server' do
+    logger.info "Deploying Workstations: #{ChefCommand.deploy_chef_server}"
+    Process.spawn(ChefCommand.deploy_chef_server)
     { success: true }.to_json
   end
 
@@ -124,7 +124,7 @@ class Portal < Sinatra::Base
   end
 
   get '/destroy_lab' do
-    logger.info "Destroying All"
+    logger.info "Destroying Lab"
     Process.spawn(ChefCommand.destroy_lab)
     { success: true }.to_json
   end
