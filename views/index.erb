@@ -37,16 +37,16 @@
 
     <h2>Available Instructor Actions</h2>
     <p>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_workstations');">Click to deploy student workstations</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_server');">Click to deploy Chef Server</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_first_nodes');">Click to deploy first standalone nodes</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_multi_nodes');">Click to deploy multi-node environment</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_workstations');">Deploy student workstations</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_server');">Deploy Chef Server</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_first_nodes');">Deploy first standalone nodes</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('deploy_multi_nodes');">Deploy remaining nodes</button>
     </p>
     <p>
-      <button type="button" class="button secondary tiny" onclick="performOperation('refresh_portal');">Click to refresh the portal web pages</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('refresh_portal');">Refresh this portal instance</button>
     </p>
-      <button type="button" class="button secondary tiny" onclick="performOperation('destroy_workstations');">Click to destroy student workstations</button>
-      <button type="button" class="button secondary tiny" onclick="performOperation('destroy_lab');">Click to destroy the entire lab environment</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('destroy_workstations');">Destroy student workstations</button>
+      <button type="button" class="button secondary tiny" onclick="performOperation('destroy_lab');">Destroy the entire lab environment</button>
     </p>
 
     <hr>
@@ -56,32 +56,32 @@
 
     <% if !students.nil? -%>
       <% students.each do |student| -%>
-        <h4><%= student[:name] %></h4>
+        <% if !student[:workstations].nil? -%>
+          <h4><%= student[:name] %></h4>
           <table border="1" style="width:50%">
+          <tr>
+            <th>Node</th>
+            <th>Public IP Address</th>
+            <th>Platform</th>
+          </tr>
+          <% student[:workstations].each do |workstation| -%>
             <tr>
-              <th>Node</th>
-              <th>Public IP Address</th>
-              <th>Platform</th>
+              <td><%= workstation[:name] %></td>
+              <td><%= workstation[:ipaddress] %></td>
+              <td><%= workstation[:platform] %></td>
             </tr>
-            <% if !student[:workstations].nil? -%>
-              <% student[:workstations].each do |workstation| -%>
-                <tr>
-                  <td><%= workstation[:name] %></td>
-                  <td><%= workstation[:ipaddress] %></td>
-                  <td><%= workstation[:platform] %></td>
-                </tr>
-              <%end -%>
-            <%end -%>
-            <% if !student[:nodes].nil? -%>
-              <% student[:nodes].each do |node| -%>
-              <tr>
-                <td><%= node[:name] %></td>
-                <td><%= node[:ipaddress] %></td>
-                <td><%= node[:platform] %></td>
-              </tr>
-              <%end -%>
-            <%end -%>
+          <% end -%>
+        <% if !student[:nodes].nil? -%>
+          <% student[:nodes].each do |node| -%>
+            <tr>
+              <td><%= node[:name] %></td>
+              <td><%= node[:ipaddress] %></td>
+              <td><%= node[:platform] %></td>
+            </tr>
+          <% end -%>
+          <% end -%>
           </table>
+        <% end -%>
       <% end -%>
     <% end -%>
 
@@ -98,7 +98,7 @@
             <td><a href="https://<%= server[:ipaddress] -%>">
               <%= server[:ipaddress] %></a>
             </td>
-          <%end -%>
+          <% end -%>
           </tr>
         </table>
     <% end -%>
